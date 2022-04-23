@@ -1,5 +1,7 @@
+const { log } = require("console");
 const { ipcRenderer } = require("electron");
-
+const fs = require("fs");
+const { run_shell_command } = require("../scripts/run_shell_command");
 // delete todo by its text value ( used below in event listener)
 const deleteTodo = (textContent) => {
   ipcRenderer.send("delete-todo", textContent);
@@ -32,14 +34,24 @@ ipcRenderer.on("todos", (event, todos) => {
   todoList.innerHTML = todoItems;
 
   // add click handlers to delete the clicked todo
-  todoList.querySelectorAll(".todo-item").forEach((item) => {
+  todoList.querySelectorAll(".todo-item").forEach((item, index) => {
     console.log(item.children[0].textContent);
     item.children[1].children[1].addEventListener("click", () =>
       deleteTodo(item.children[0].textContent)
     );
 
-    item.children[1].children[0].addEventListener("click", () =>
-      alert("connecting...")
-    );
+    item.children[1].children[0].addEventListener("click", () => {
+      const { ip, port, usernamw, password } = todos[index];
+
+      run_shell_command(
+        `/home/lovedeep/Desktop/code/3rdyear/hack36-2k22/App/scripts/setup.sh ${ip} ${port} ${usernamw} ${password}`
+      )
+        .then((op) => {
+          console.log(op);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
   });
 });

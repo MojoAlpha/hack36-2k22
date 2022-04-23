@@ -15,7 +15,7 @@ const proxyData = new DataStore({ name: "ProxyList" });
 function createMainWindow() {
   const mainWindow = new Window({
     file: path.join("renderer", "index.html"),
-    showDevTools: false,
+    showDevTools: true,
   });
   mainWindow.removeMenu();
   // add todo window
@@ -30,7 +30,7 @@ function createMainWindow() {
 
   // create add todo window
   ipcMain.on("add-todo-window", (e) => {
-    // if addTodoWin does not already exist
+    // if addshowTodoWin does not already exist
     if (!addTodoWin) {
       // create a new add todo window
       addTodoWin = new Window({

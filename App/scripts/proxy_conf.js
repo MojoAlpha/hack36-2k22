@@ -1,7 +1,7 @@
-const fs = require('fs');
+const fs = require("fs");
 
 const getConfiguration = (ip_addr, port, login, password) => {
-    return `base {
+  return `base {
     log_debug = off;
     log_info = off;
     log = "file:/var/log/redsocks";
@@ -22,7 +22,8 @@ redsocks {
     type = http-relay;
 }
 
-T        local_ip = 0.0.0.0;
+redsocks{
+        local_ip = 0.0.0.0;
         local_port = 12346;
 
         ip = ${ip_addr};
@@ -32,17 +33,23 @@ T        local_ip = 0.0.0.0;
         password = "${password}";
     
         type = http-connect;
-}`
-}
+}`;
+};
 
-const changeConfiguration = (ip_addr, port, login, password, file_path) => {
-    const configuration = getConfiguration(ip_addr, port, login, password);
-    fs.writeFile(file_path, configuration, (err) => {
-        if (err) return console.error(err);
-    })
-    console.log('config set!!')
-}
+// const changeConfiguration = (ip_addr, port, login, password, file_path) => {
+//   const configuration = getConfiguration(ip_addr, port, login, password);
+//   return new Promise((resolve, reject) => {
+//     try {
 
-exports.module = {
-    changeConfiguration
-}
+//     console.log("config set!!");
+//     return resolve("done");
+//     }
+//     catch(err) {
+//       return reject(err);
+//     }
+//   });
+// };
+
+module.exports = {
+  getConfiguration,
+};
