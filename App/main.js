@@ -15,7 +15,7 @@ const proxyData = new DataStore({ name: "ProxyList" });
 function createMainWindow() {
   const mainWindow = new Window({
     file: path.join("renderer", "index.html"),
-    showDevTools: true,
+    showDevTools: false,
   });
   mainWindow.removeMenu();
   // add todo window
@@ -49,12 +49,12 @@ function createMainWindow() {
   });
 
   // add-todo from add todo window
-  ipcMain.on('add-todo', (event, todo) => {
+  ipcMain.on("add-todo", (event, todo) => {
     console.log(todo);
-    const updatedTodos = proxyData.addTodo(todo).todos
+    const updatedTodos = proxyData.addTodo(todo).todos;
     console.log(updatedTodos);
-    mainWindow.send('todos', updatedTodos)
-  })
+    mainWindow.send("todos", updatedTodos);
+  });
 
   // delete-todo from todo list window
   ipcMain.on("delete-todo", (event, todo) => {
