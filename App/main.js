@@ -40,12 +40,17 @@ function createMainWindow() {
         // close with the main window
         parent: mainWindow,
       });
+      addTodoWin.removeMenu();
 
       // cleanup
       addTodoWin.on("closed", () => {
         addTodoWin = null;
       });
     }
+  });
+
+  ipcMain.on("request-todo-list", (e) => {
+    mainWindow.send("sending-todo-list", proxyData.todos);
   });
 
   // add-todo from add todo window

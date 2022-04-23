@@ -13,8 +13,17 @@ document.getElementById("createTodoBtn").addEventListener("click", () => {
   ipcRenderer.send("add-todo-window");
 });
 
+document.getElementById("findBestProxy").addEventListener("click", () => {
+  ipcRenderer.send("request-todo-list");
+});
+
+ipcRenderer.on("sending-todo-list", (event, todos) => {
+  console.log("here are the requested data:", todos);
+});
+
 // on receive todos
 ipcRenderer.on("todos", (event, todos) => {
+  console.log("updated");
   // get the todoList ul
   const todoList = document.getElementById("todoList");
 

@@ -6,15 +6,17 @@
     <link rel="stylesheet" href="style.css" />
   </head>
 
-  <body>
-    <h1 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+  <body class="bg-gradient-to-r from-cyan-500 to-blue-500">
+    <h1
+      class="mt-6 text-3xl font-extrabold text-center text-white text-gray-900"
+    >
       Add Todo
     </h1>
 
-    <form id="todoForm" class="mt-8 space-y-6">
-      <div class="form-group rounded-md shadow-sm -space-y-px">
+    <form id="todoForm" class="px-4 mt-8">
+      <div class="space-y-2 rounded-md shadow-sm form-group">
         <input
-          class="form-input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+          class="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-lg appearance-none form-input focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
           type="text"
           name="add-input"
           placeholder="Add Proxy IP"
@@ -22,19 +24,19 @@
         <!-- TODO Add regex  -->
 
         <input
-          class="form-input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+          class="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-lg appearance-none form-input focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
           type="text"
           name="add-input"
           placeholder="Add Port Port"
         />
         <input
-          class="form-input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+          class="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-lg appearance-none form-input focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
           type="text"
           name="add-input"
           placeholder="Add Username"
         />
         <input
-          class="form-input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+          class="relative block w-full px-3 py-2 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-lg appearance-none form-input focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
           type="password"
           name="add-input"
           placeholder="Add Password"
@@ -43,24 +45,14 @@
 
       <div>
         <button
-          class="btn group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          type="submit"
+          class="relative w-full inline-flex items-center justify-center p-0.5 mx-auto overflow-hidden text-sm font-medium text-gray-900 rounded-lg group hover:text-white dark:text-white focus:ring-4 focus:outline-none"
         >
-          <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-            <svg
-              class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                clip-rule="evenodd"
-              />
-            </svg>
+          <span
+            class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-gray-900 rounded-md group-hover:bg-gray-800 group-hover:scale-105"
+          >
+            +ADD
           </span>
-          Add Todo
         </button>
       </div>
     </form>
