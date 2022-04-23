@@ -35,8 +35,14 @@ T        local_ip = 0.0.0.0;
 }`
 }
 
-const configuration = getConfiguration("172.31.100.14", 3128, "edcguest", "edcguest");
-fs.writeFile("/home/mojo/Desktop/hello.md", configuration, (err) => {
-    if (err) return console.error(err);
-})
-console.log('config set!!')
+const changeConfiguration = (ip_addr, port, login, password, file_path) => {
+    const configuration = getConfiguration(ip_addr, port, login, password);
+    fs.writeFile(file_path, configuration, (err) => {
+        if (err) return console.error(err);
+    })
+    console.log('config set!!')
+}
+
+exports.module = {
+    changeConfiguration
+}
