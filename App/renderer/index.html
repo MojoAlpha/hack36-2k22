@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>super proxifier</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body
+    class="relative flex justify-center h-screen align-middle bg-no-repeat bg-cover bg-slate-800"
+  >
+    <div
+      class="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500"
+    ></div>
+    <div class="absolute z-10 w-full p-10">
+      <div class="flex justify-between">
+        <h1 class="text-4xl font-semibold text-center text-white uppercase">
+          Proxies
+        </h1>
+        <button
+          id="createTodoBtn"
+          class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group hover:text-white dark:text-white focus:ring-4 focus:outline-none"
+        >
+          <span
+            class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-gray-900 rounded-md group-hover:bg-gray-800 group-hover:scale-105"
+          >
+            + Add
+          </span>
+        </button>
+      </div>
+
+      <ul id="todoList" class="space-y-2"></ul>
+    </div>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="./index.js"></script>
+  </body>
+</html>
