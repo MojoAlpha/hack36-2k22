@@ -1,7 +1,7 @@
 const { log } = require("console");
 const { ipcRenderer } = require("electron");
 const fs = require("fs");
-const { run_shell_command } = require("../scripts/run_shell_command");
+const { sudo_run_shell_command } = require("../scripts/sudo_run_shell_command");
 // delete todo by its text value ( used below in event listener)
 const deleteTodo = (textContent) => {
   ipcRenderer.send("delete-todo", textContent);
@@ -50,10 +50,10 @@ ipcRenderer.on("todos", (event, todos) => {
     );
 
     item.children[1].children[0].addEventListener("click", () => {
-      const { ip, port, usernamw, password } = todos[index];
+      const { ip, port, username, password } = todos[index];
 
-      run_shell_command(
-        `/home/lovedeep/Desktop/code/3rdyear/hack36-2k22/App/scripts/setup.sh ${ip} ${port} ${usernamw} ${password}`
+      sudo_run_shell_command(
+        `/home/warmachine/Desktop/hack36-2k22/App/scripts/setup.sh ${ip} ${port} ${username} ${password}`
       )
         .then((op) => {
           console.log(op);
