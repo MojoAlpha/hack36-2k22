@@ -46,8 +46,9 @@ function createMainWindow () {
 
   // add-todo from add todo window
   ipcMain.on('add-todo', (event, todo) => {
+    console.log(todo);
     const updatedTodos = proxyData.addTodo(todo).todos
-
+    console.log(updatedTodos);
     mainWindow.send('todos', updatedTodos)
   })
 
