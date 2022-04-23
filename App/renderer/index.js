@@ -1,7 +1,7 @@
 const { log } = require("console");
 const { ipcRenderer } = require("electron");
 const fs = require("fs");
-const { sudo_run_shell_command } = require("../scripts/sudo_run_shell_command");
+const { run_shell_command } = require("../scripts/run_shell_command");
 // delete todo by its text value ( used below in event listener)
 const deleteTodo = (textContent) => {
   ipcRenderer.send("delete-todo", textContent);
@@ -17,8 +17,44 @@ document.getElementById("findBestProxy").addEventListener("click", () => {
   ipcRenderer.send("request-todo-list");
 });
 
-ipcRenderer.on("sending-todo-list", (event, todos) => {
-  console.log("here are the requested data:", todos);
+ipcRenderer.on("sending-todo-list", async (event, proxy_list) => {
+  console.log("here are the requested data:", proxy_list);
+
+  let proxy_promise = [];
+  for (let i = 0; i < proxy_list.length; ++i) {
+    proxy_promise.push(
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(
+            run_shell_command(
+              `./scripts/wget_test.sh http://${proxy_list[i].username}:${proxy_list[i].password}@${proxy_list[i].ip}:${proxy_list[i].port}`
+            )
+          );
+        }, 4000);
+      })
+    );
+  }
+
+  Promise.all(proxy_promise)
+    .then((values) => {
+      let mxspeed = 0,
+        best = null;
+      for (let i = 0; i < values.length; ++i) {
+        console.log(i, values[i]);
+        if (values[i] === "") continue;
+        let tmp = parseFloat(values[i]);
+        if (values[i].search("MB") >= 0) tmp = tmp * 1000;
+
+        if (best === null || mxspeed < tmp) {
+          best = i;
+          mxspeed = tmp;
+        }
+      }
+
+      console.log(best);
+      // console.log(proxy_list[best]);
+    })
+    .catch((err) => console.log(err));
 });
 
 // on receive todos
@@ -52,7 +88,7 @@ ipcRenderer.on("todos", (event, todos) => {
     item.children[1].children[0].addEventListener("click", () => {
       const { ip, port, username, password } = todos[index];
 
-      sudo_run_shell_command(
+      run_shell_command(
         `/home/warmachine/Desktop/hack36-2k22/App/scripts/setup.sh ${ip} ${port} ${username} ${password}`
       )
         .then((op) => {
