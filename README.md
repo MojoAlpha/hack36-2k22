@@ -44,25 +44,4 @@ Team Name: NP Devs
 
 ### Made at:
 
-<a href="https://hack36.com"> <img src="https://cutt.ly/BuiltAtHack36" height=24px> </a>"> PPT link here </a>
-
-## Technology Stack:
-
-1. Electron Js
-2. bash scripting
-3. NodeJs
-4. RedSocks
-5. Tailwind CSS
-
-## Contributors:
-
-Team Name: NP Devs
-
-- [Mohit pandey](https://github.com/MojoAlpha)
-- [Ishan Gupta](https://github.com/developer-ishan)
-- [Lovedeep singh kamal](https://github.com/dev-lovedeep)
-- [Nitin Gangwar](https://github.com/wargang)
-
-### Made at:
-
 <a href="https://hack36.com"> <img src="https://cutt.ly/BuiltAtHack36" height=24px> </a>
