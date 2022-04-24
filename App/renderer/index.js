@@ -53,6 +53,7 @@ ipcRenderer.on("todos", (event, todos) => {
         `/home/lovedeep/Desktop/code/3rdyear/hack36-2k22/App/scripts/setup.sh ${ip} ${port} ${username} ${password}`
       )
         .then((op) => {
+          alert(`${ip}:${port} is now set.`);
           console.log(op);
         })
         .catch((err) => {
@@ -110,45 +111,52 @@ ipcRenderer.on("todos", (event, todos) => {
 //     .catch((err) => console.log(err));
 // });
 
-ipcRenderer.on("sending-todo-list", async (event, proxy_list) => {
-  console.log("here are the requested data:", proxy_list);
+// ipcRenderer.on("sending-todo-list", async (event, proxy_list) => {
+//   console.log("here are the requested data:", proxy_list);
 
-  let proxy_promise = [];
-  for (let i = 0; i < proxy_list.length; ++i) {
-    proxy_promise.push(
-      new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(
-            run_shell_command(
-              `${path.join(__dirname, "..")}/scripts/wget_test.sh http://${
-                proxy_list[i].username
-              }:${proxy_list[i].password}@${proxy_list[i].ip}:${
-                proxy_list[i].port
-              }`
-            )
-          );
-        }, 2000);
-      })
-    );
-  }
-  console.log("proxy pushed", proxy_promise.length);
-  console.log(proxy_promise);
+//   let proxy_promise = [];
+//   for (let i = 0; i < proxy_list.length; ++i) {
+//     proxy_promise.push(
+//       new Promise((resolve) => {
+//         setTimeout(() => {
+//           resolve(
+//             run_shell_command(
+//               `${path.join(__dirname, "..")}/scripts/wget_test.sh http://${
+//                 proxy_list[i].username
+//               }:${proxy_list[i].password}@${proxy_list[i].ip}:${
+//                 proxy_list[i].port
+//               }`
+//             )
+//           );
+//         }, 2000);
+//       })
+//     );
+//   }
+//   console.log("proxy pushed", proxy_promise.length);
+//   console.log(proxy_promise);
 
-  const values = await Promise.all(proxy_promise);
-  let mxspeed = 0,
-    best = null;
-  console.log(values);
+//   const values = await Promise.all(proxy_promise);
+//   let mxspeed = 0,
+//     best = null;
+//   console.log(values);
 
-  for (let i = 0; i < values.length; ++i) {
-    if (values[i] === "") continue;
-    let tmp = parseFloat(values[i]);
-    if (values[i].search("MB") >= 0) tmp = tmp * 1000;
+//   for (let i = 0; i < values.length; ++i) {
+//     if (values[i] === "") continue;
+//     let tmp = parseFloat(values[i]);
+//     if (values[i].search("MB") >= 0) tmp = tmp * 1000;
 
-    if (best === null || mxspeed < tmp) {
-      tmp = mxspeed;
-      best = i;
-    }
+//     if (best === null || mxspeed < tmp) {
+//       tmp = mxspeed;
+//       best = i;
+//     }
 
-    console.log(best);
-  }
-});
+//     console.log(best);
+//   }
+// });
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}

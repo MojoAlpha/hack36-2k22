@@ -32,9 +32,7 @@ class DataStore extends Store {
 
   deleteTodo(todo) {
     // filter out the target todo
-    // console.log("inside store", todo);
     this.todos = this.todos.filter((t) => t.ip !== todo);
-
     return this.saveTodos();
   }
 }
