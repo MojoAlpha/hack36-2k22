@@ -1,5 +1,6 @@
 const { log } = require("console");
 const { ipcRenderer } = require("electron");
+const path = require("path");
 const fs = require("fs");
 const { run_shell_command } = require("../scripts/run_shell_command");
 // delete todo by its text value ( used below in event listener)
@@ -15,46 +16,6 @@ document.getElementById("createTodoBtn").addEventListener("click", () => {
 
 document.getElementById("findBestProxy").addEventListener("click", () => {
   ipcRenderer.send("request-todo-list");
-});
-
-ipcRenderer.on("sending-todo-list", async (event, proxy_list) => {
-  console.log("here are the requested data:", proxy_list);
-
-  let proxy_promise = [];
-  for (let i = 0; i < proxy_list.length; ++i) {
-    proxy_promise.push(
-      new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(
-            run_shell_command(
-              `./scripts/wget_test.sh http://${proxy_list[i].username}:${proxy_list[i].password}@${proxy_list[i].ip}:${proxy_list[i].port}`
-            )
-          );
-        }, 4000);
-      })
-    );
-  }
-
-  Promise.all(proxy_promise)
-    .then((values) => {
-      let mxspeed = 0,
-        best = null;
-      for (let i = 0; i < values.length; ++i) {
-        console.log(i, values[i]);
-        if (values[i] === "") continue;
-        let tmp = parseFloat(values[i]);
-        if (values[i].search("MB") >= 0) tmp = tmp * 1000;
-
-        if (best === null || mxspeed < tmp) {
-          best = i;
-          mxspeed = tmp;
-        }
-      }
-
-      console.log(best);
-      // console.log(proxy_list[best]);
-    })
-    .catch((err) => console.log(err));
 });
 
 // on receive todos
@@ -89,7 +50,7 @@ ipcRenderer.on("todos", (event, todos) => {
       const { ip, port, username, password } = todos[index];
 
       run_shell_command(
-        `/home/warmachine/Desktop/hack36-2k22/App/scripts/setup.sh ${ip} ${port} ${username} ${password}`
+        `/home/lovedeep/Desktop/code/3rdyear/hack36-2k22/App/scripts/setup.sh ${ip} ${port} ${username} ${password}`
       )
         .then((op) => {
           console.log(op);
@@ -99,4 +60,95 @@ ipcRenderer.on("todos", (event, todos) => {
         });
     });
   });
+});
+
+// ipcRenderer.on("sending-todo-list", (event, proxy_list) => {
+//   console.log("here are the requested data:", proxy_list);
+
+//   let proxy_promise = [];
+//   for (let i = 0; i < proxy_list.length; ++i) {
+//     proxy_promise.push(
+//       new Promise((resolve) => {
+//         setTimeout(() => {
+//           resolve(
+//             run_shell_command(
+//               `${path.join(__dirname, "..")}/scripts/wget_test.sh http://${
+//                 proxy_list[i].username
+//               }:${proxy_list[i].password}@${proxy_list[i].ip}:${
+//                 proxy_list[i].port
+//               }`
+//             )
+//           );
+//         }, 3000);
+//       })
+//     );
+//   }
+//   console.log("proxy pushed", proxy_promise.length);
+
+//   Promise.all(proxy_promise)
+//     .then((values) => {
+//       let mxspeed = 0,
+//         best = null;
+//       ipcRenderer.send("main-log", values.length);
+//       alert("values size:", values.length);
+
+//       for (let i = 0; i < values.length; ++i) {
+//         alert(i, values[i]);
+//         if (values[i] === "") continue;
+//         let tmp = parseFloat(values[i]);
+//         if (values[i].search("MB") >= 0) tmp = tmp * 1000;
+
+//         if (best === null || mxspeed < tmp) {
+//           best = i;
+//           mxspeed = tmp;
+//         }
+//       }
+
+//       alert(best);
+//       alert(proxy_list[best]);
+//     })
+//     .catch((err) => console.log(err));
+// });
+
+ipcRenderer.on("sending-todo-list", async (event, proxy_list) => {
+  console.log("here are the requested data:", proxy_list);
+
+  let proxy_promise = [];
+  for (let i = 0; i < proxy_list.length; ++i) {
+    proxy_promise.push(
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(
+            run_shell_command(
+              `${path.join(__dirname, "..")}/scripts/wget_test.sh http://${
+                proxy_list[i].username
+              }:${proxy_list[i].password}@${proxy_list[i].ip}:${
+                proxy_list[i].port
+              }`
+            )
+          );
+        }, 2000);
+      })
+    );
+  }
+  console.log("proxy pushed", proxy_promise.length);
+  console.log(proxy_promise);
+
+  const values = await Promise.all(proxy_promise);
+  let mxspeed = 0,
+    best = null;
+  console.log(values);
+
+  for (let i = 0; i < values.length; ++i) {
+    if (values[i] === "") continue;
+    let tmp = parseFloat(values[i]);
+    if (values[i].search("MB") >= 0) tmp = tmp * 1000;
+
+    if (best === null || mxspeed < tmp) {
+      tmp = mxspeed;
+      best = i;
+    }
+
+    console.log(best);
+  }
 });

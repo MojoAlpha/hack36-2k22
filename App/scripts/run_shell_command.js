@@ -1,5 +1,5 @@
 const sudo = require("sudo-prompt");
-const {exec} = require("child_process")
+const { exec } = require("child_process");
 
 function sudo_run_shell_command(command) {
   const options = {
@@ -15,6 +15,7 @@ function sudo_run_shell_command(command) {
 }
 
 function run_shell_command(command) {
+  console.log(command);
   return new Promise((resolve, reject) => {
     exec(command, (err, stdout, stderr) => {
       if (err) return reject(err);

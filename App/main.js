@@ -52,6 +52,10 @@ function createMainWindow() {
   ipcMain.on("request-todo-list", (e) => {
     mainWindow.send("sending-todo-list", proxyData.todos);
   });
+  ipcMain.on("main-log", (e, data) => {
+    console.log("log####", data);
+  });
+  // main-log
 
   // add-todo from add todo window
   ipcMain.on("add-todo", (event, todo) => {
@@ -63,9 +67,9 @@ function createMainWindow() {
 
   // delete-todo from todo list window
   ipcMain.on("delete-todo", (event, todo) => {
-    console.log("deleting todo");
+    console.log("deleting todo", todo);
     const updatedTodos = proxyData.deleteTodo(todo).todos;
-
+    console.log("after delete", updatedTodos);
     mainWindow.send("todos", updatedTodos);
   });
 }
