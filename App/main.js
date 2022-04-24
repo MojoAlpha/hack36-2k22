@@ -15,7 +15,7 @@ const proxyData = new DataStore({ name: "ProxyList" });
 function createMainWindow() {
   const mainWindow = new Window({
     file: path.join("renderer", "index.html"),
-    showDevTools: true,
+    showDevTools: false,
   });
   mainWindow.removeMenu();
   // add todo window

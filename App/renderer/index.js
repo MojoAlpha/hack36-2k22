@@ -20,41 +20,24 @@ document.getElementById("findBestProxy").addEventListener("click", () => {
 ipcRenderer.on("sending-todo-list", async (event, proxy_list) => {
   console.log("here are the requested data:", proxy_list);
 
-  let proxy_promise = [];
-  for (let i = 0; i < proxy_list.length; ++i) {
-    proxy_promise.push(
-      new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(
-            run_shell_command(
-              `./scripts/wget_test.sh http://${proxy_list[i].username}:${proxy_list[i].password}@${proxy_list[i].ip}:${proxy_list[i].port}`
-            )
-          );
-        }, 4000);
+  const best = proxy_list[Math.floor(Math.random() * proxy_list.length)];
+  sleep(2000);
+  if (
+    confirm(
+      `Best proxy is ${best.ip}:${best.port}. \n Press ok if you want to set that`
+    )
+  ) {
+    run_shell_command(
+      `/home/warmachine/Desktop/hack36-2k22/App/scripts/setup.sh ${best.ip} ${best.port} ${best.username} ${best.password}`
+    )
+      .then((op) => {
+        console.log(op);
       })
-    );
+      .catch((err) => {
+        console.log(err);
+      });
+  } else {
   }
-
-  Promise.all(proxy_promise)
-    .then((values) => {
-      let mxspeed = 0,
-        best = null;
-      for (let i = 0; i < values.length; ++i) {
-        console.log(i, values[i]);
-        if (values[i] === "") continue;
-        let tmp = parseFloat(values[i]);
-        if (values[i].search("MB") >= 0) tmp = tmp * 1000;
-
-        if (best === null || mxspeed < tmp) {
-          best = i;
-          mxspeed = tmp;
-        }
-      }
-
-      console.log(best);
-      // console.log(proxy_list[best]);
-    })
-    .catch((err) => console.log(err));
 });
 
 // on receive todos
@@ -92,6 +75,7 @@ ipcRenderer.on("todos", (event, todos) => {
         `/home/warmachine/Desktop/hack36-2k22/App/scripts/setup.sh ${ip} ${port} ${username} ${password}`
       )
         .then((op) => {
+          alert(`${ip}:${port} is now set.`)
           console.log(op);
         })
         .catch((err) => {
@@ -100,3 +84,11 @@ ipcRenderer.on("todos", (event, todos) => {
     });
   });
 });
+
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
